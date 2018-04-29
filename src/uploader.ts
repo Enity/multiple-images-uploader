@@ -18,12 +18,13 @@ export class MultipleFilesUpload {
   }
   initializeParts() {
     let totalParts = 1;
-    let part: IFilesPart = createEmptyPart(1);
+    let part = createEmptyPart(1);
     part.files = new FormData();
     this.files.map((item, i) => {
       part.files.append('files', item);
       i++;
-      if (i % this.partSize === 0 || i === this.files.length) {
+      if (i % this.partSize === 0 ||
+        i === this.files.length) {
         totalParts++;
         this.parts.push(part);
         part = createEmptyPart(totalParts);
@@ -34,7 +35,6 @@ export class MultipleFilesUpload {
     }
   }
 }
-
 const filesMock = ImgFilesMocks(14);
 const uploader = new MultipleFilesUpload({target: '21312', files: filesMock, partSize: 4});
 uploader.initializeParts();
