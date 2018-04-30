@@ -9,16 +9,16 @@ describe('Parts initialize', () => {
       const targetPartsQuantity = Math.ceil(filesMock.length / partSize);
       const uploader = new MultipleFilesUpload({target: '', files: filesMock, partSize});
       uploader.initializeParts();
-      const lastPart = uploader.parts[targetPartsQuantity - 1].files.getAll('files').length;
+      const lastPartLength = uploader.parts[targetPartsQuantity - 1].files.length;
       test(`${filesMock.length} files, part size ${partSize}`, () => {
         expect(uploader.parts.length).toBe(targetPartsQuantity);
       });
       test(`Correct last part size ${filesMock.length} files, part size ${partSize}`, () => {
         const lastPartSize = () => {
           if (filesMock.length % partSize === 0) return partSize;
-          if (lastPart === filesMock.length % partSize) return filesMock.length % partSize;
+          if (lastPartLength === filesMock.length % partSize) return filesMock.length % partSize;
         };
-        expect(lastPart).toBe(lastPartSize());
+        expect(lastPartLength).toBe(lastPartSize());
       });
     }
   });
