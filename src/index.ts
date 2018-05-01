@@ -22,7 +22,7 @@ export class MultipleFilesUpload {
     const filesClone = this.files.concat();
     for (let i = 0; i < totalParts; i++) {
       const part = filesClone.splice(0, this.partSize);
-      this.parts[i] = new UploaderPart(part);
+      this.parts[i] = new UploaderPart(part, this.target);
     }
   }
 }

@@ -3,7 +3,7 @@ import { MultipleFilesUpload } from '../src/uploader';
 
 describe('Parts initialize', () => {
   describe('Initializes the correct number of parts with random number of files & part sizes', () => {
-    for (let i = 1; i <= 10; i++) {
+    for (let i = 1; i <= 5; i++) {
       const filesMock = ImgFilesMocks(random(1, 100));
       const partSize = i;
       const targetPartsQuantity = Math.ceil(filesMock.length / partSize);

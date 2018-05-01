@@ -22,14 +22,10 @@ export class MultipleFilesUpload {
     const filesClone = this.files.concat();
     for (let i = 0; i < totalParts; i++) {
       const part = filesClone.splice(0, this.partSize);
-      this.parts[i] = new UploaderPart(part);
+      this.parts[i] = new UploaderPart(part, this.target);
     }
   }
 }
-
-const filesMock = ImgFilesMocks(14);
-const uploader = new MultipleFilesUpload({target: '21312', files: filesMock, partSize: 4});
-uploader.initializeParts();
 
 interface IConstructorArgs {
   files: Blob[];
