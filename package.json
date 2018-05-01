@@ -7,7 +7,7 @@
     "dev": "webpack-dev-server --hot --inline --progress --config config/webpack.conf.js",
     "test": "jest --config ./test/config/jest.config.js",
     "start": "npm run dev",
-    "build": "webpack --config config/webpack.conf.js"
+    "build": "webpack --config config/webpack.conf.build.js"
   },
   "author": "",
   "license": "ISC",
@@ -29,7 +29,8 @@
     "tslint": "^5.9.1",
     "typescript": "^2.8.3",
     "webpack": "^3.6.0",
-    "webpack-dev-server": "^2.9.1"
+    "webpack-dev-server": "^2.9.1",
+    "webpack-merge": "^4.1.2"
   },
   "dependencies": {
     "@types/lodash": "^4.14.108"

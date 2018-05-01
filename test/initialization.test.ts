@@ -1,5 +1,5 @@
 import { ImgFilesMocks } from './mocks/files.mock';
-import { MultipleFilesUpload } from '../src/uploader';
+import MultipleFilesUpload from '../src/uploader';
 
 describe('Parts initialize', () => {
   describe('Initializes the correct number of parts with random number of files & part sizes', () => {
