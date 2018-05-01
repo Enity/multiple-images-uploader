@@ -6,10 +6,10 @@ export default class UploaderPart {
   eventService: EventEmitter = new EventEmitter();
   xhr: XMLHttpRequest;
   constructor(public filesArr: Blob[] = [], public target: string, public additData?: IAdditData[]) {
-    this.initData();
+    this.initFormData();
     this.initXhr();
   }
-  initData() {
+  initFormData() {
     if (this.additData) {
       this.additData.map(item => this.formData.append(item.key, item.value));
     }
@@ -30,13 +30,16 @@ export default class UploaderPart {
     };
     this.xhr = xhr;
   }
-
+  send() {
+    this.xhr.open('POST', this.target);
+    this.xhr.send(this.formData);
+  }
+  abort() {
+    this.xhr.abort();
+  }
 }
 
 interface IAdditData {
   key: string;
   value: string;
 }
-
-const files = ImgFilesMocks(5);
-const test = new UploaderPart(files, 'localhost');

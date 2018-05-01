@@ -27,10 +27,10 @@ export class MultipleFilesUpload {
   }
 }
 
-const filesMock = ImgFilesMocks(14);
+/* const filesMock = ImgFilesMocks(14);
 const uploader = new MultipleFilesUpload({target: '21312', files: filesMock, partSize: 4});
 uploader.initializeParts();
-console.log(uploader);
+console.log(uploader); */
 
 interface IConstructorArgs {
   files: Blob[];
