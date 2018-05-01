@@ -8,8 +8,7 @@ describe('Parts initialize', () => {
       const partSize = i;
       const targetPartsQuantity = Math.ceil(filesMock.length / partSize);
       const uploader = new MultipleFilesUpload({target: '', files: filesMock, partSize});
-      uploader.initializeParts();
-      const lastPartLength = uploader.parts[targetPartsQuantity - 1].files.length;
+      const lastPartLength = uploader.parts[targetPartsQuantity - 1].filesArr.length;
       test(`${filesMock.length} files, part size ${partSize}`, () => {
         expect(uploader.parts.length).toBe(targetPartsQuantity);
       });

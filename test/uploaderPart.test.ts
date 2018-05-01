@@ -3,7 +3,7 @@ import UploaderPart from '../src/uploaderPart';
 
 describe('Uploader part', () => {
   test('Additional data init', () => {
-    const uploaderPart = new UploaderPart([], 'localhost', [
+    const uploaderPart = new UploaderPart([], 'localhost', 1, [
       {key: 'boroda', value: '123'},
       {key: 'boroda', value: '2455'}
     ]);

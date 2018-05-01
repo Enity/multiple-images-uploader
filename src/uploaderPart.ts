@@ -1,11 +1,14 @@
+import throttle = require('lodash/throttle');
 import EventEmitter from './eventEmitter';
-import { ImgFilesMocks } from '../test/mocks/files.mock';
 
 export default class UploaderPart {
   formData: FormData = new FormData();
   eventService: EventEmitter = new EventEmitter();
   xhr: XMLHttpRequest;
-  constructor(public filesArr: Blob[] = [], public target: string, public additData?: IAdditData[]) {
+  loaded: number = 0;
+
+  constructor(public filesArr: File[] = [], public target: string,
+              public partN: number, public additData?: IAdditData[]) {
     this.initFormData();
     this.initXhr();
   }
@@ -19,14 +22,18 @@ export default class UploaderPart {
   }
   initXhr() {
     const xhr = new XMLHttpRequest();
-    xhr.upload.onprogress = e => {
-      this.eventService.emit('progress', e.loaded);
-    };
-    xhr.onload = () => {
-      this.eventService.emit('finish');
-    };
-    xhr.onerror = () => {
-      this.eventService.emit('error', xhr.statusText);
+    const throttled = throttle((e) => {
+      this.eventService.emit('progress', e.loaded - this.loaded);
+      this.loaded = e.loaded;
+    }, 1000);
+    xhr.upload.onprogress = (e) => throttled(e);
+    xhr.onreadystatechange = () => {
+      if (xhr.readyState === 4 && xhr.status === 200) {
+        this.eventService.emit('success', this.partN);
+      }
+      if (xhr.readyState === 4 && xhr.status !== 200) {
+        this.eventService.emit('error', xhr.statusText);
+      }
     };
     this.xhr = xhr;
   }
@@ -37,7 +44,12 @@ export default class UploaderPart {
   abort() {
     this.xhr.abort();
   }
+  on(event: string, callb?: callbackFunc) {
+    this.eventService.subscribe(event, callb);
+  }
 }
+
+type callbackFunc = (payload?: any) => void;
 
 interface IAdditData {
   key: string;

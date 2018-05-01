@@ -1,13 +1,22 @@
-import { ImgFilesMocks } from '../test/mocks/files.mock';
 import { ValidateFiles } from './utils/validator';
+import EventEmitter from './eventEmitter';
+import QueueService from './queueSerivce';
 import UploaderPart from './uploaderPart';
 
-export class MultipleFilesUpload {
+export default class MultipleFilesUpload {
   target: string;
   partSize: number = 1;
-  files: Blob[];
+  streams: number = 1;
+  files: File[];
   parts: UploaderPart[] = [];
-  totalFileSize: number;
+  additData: IAdditData[];
+  progress: IProgress = {
+    total: 0,
+    loaded: 0,
+    procent: '0%'
+  };
+  eventService: EventEmitter = new EventEmitter();
+  queueService: QueueService;
 
   constructor(arg: IConstructorArgs) {
     try {
@@ -16,19 +25,68 @@ export class MultipleFilesUpload {
       throw(e);
     }
     Object.assign(this, arg);
+    this.initializeParts();
+    this.initProgressRender();
+    this.queueService = new QueueService(this.parts, this.streams);
   }
-  initializeParts() {
+  public on(event: string, callb: (payload: any) => void) {
+    this.eventService.subscribe(event, callb);
+  }
+  public async start() {
+    return new Promise ((resolve, reject) => {
+      this.queueService.start()
+      .then(() => {
+        setTimeout(() => {
+          this.eventService.emit('finish');
+          resolve();
+        }, 1000);
+      })
+      .catch(e => {
+        this.eventService.emit('error', e);
+        reject(e);
+      });
+    });
+  }
+  public abort() {
+    this.queueService.abort();
+  }
+  private initializeParts() {
     const totalParts = Math.ceil(this.files.length / this.partSize);
     const filesClone = this.files.concat();
     for (let i = 0; i < totalParts; i++) {
       const part = filesClone.splice(0, this.partSize);
-      this.parts[i] = new UploaderPart(part, this.target);
+      this.parts[i] = new UploaderPart(part, this.target, i + 1, this.additData);
     }
   }
+  private initProgressRender() {
+    this.progress.total = this.files
+      .map(i => i.size).reduce((prev, cur) => prev + cur);
+    for (const part of this.parts) {
+      part.on('progress', (loaded) => {
+        this.progress.loaded += loaded;
+        this.progress.procent = Math.round(this.progress.loaded / this.progress.total * 100) + '%';
+        this.eventService.emit('progress', this.progress);
+      });
+    }
+  }
+
+}
+
+interface IProgress {
+  total: number;
+  loaded: number;
+  procent: string;
+}
+
+interface IAdditData {
+  key: string;
+  value: string;
 }
 
 interface IConstructorArgs {
-  files: Blob[];
+  files: File[];
   target: string;
+  additData?: IAdditData[];
+  streams?: number;
   partSize?: number;
 }

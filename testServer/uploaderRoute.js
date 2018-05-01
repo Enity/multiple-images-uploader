@@ -6,6 +6,7 @@ const fs = require('fs');
 const util = require('util');
 
 const unlink = util.promisify(fs.unlink);
+
 /* 'host/testupload' */
 
 router.post('/', async (req, res) => {
@@ -15,6 +16,7 @@ router.post('/', async (req, res) => {
   formParser.parse(req, async (err, fields, files) => {
     if (err) res.send(err);
     files = files.files;
+    if (!Array.isArray(files)) files = [files];
     if (files == undefined) res.send('NO FILES');
     console.log(getTestResponse(files, fields));
     deleteTmpFiles(files);

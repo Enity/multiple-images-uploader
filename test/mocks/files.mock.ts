@@ -1,9 +1,11 @@
-export function ImgFilesMocks(quantity: number, imgType = 'jpg') {
-  const files: Blob[] = [];
-  const imageMock = new Blob([JSON.stringify({})], {type: `image/${imgType}`});
+import getFakeBlob from './blob.mock';
+
+export function ImgFilesMocks(quantity: number, imgType = 'jpeg', sizeMultipler = 10) {
+  const files: File[] = [];
+  const imageMock = getFakeBlob(imgType, sizeMultipler);
   let i = 0;
   while (i < quantity) {
-    files.push(imageMock);
+    files.push(imageMock as File);
     i++;
   }
   return files;
