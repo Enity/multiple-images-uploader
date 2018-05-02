@@ -13,7 +13,7 @@ export default class MultipleFilesUpload {
   progress: IProgress = {
     total: 0,
     loaded: 0,
-    procent: '0%'
+    percent: '0%'
   };
   eventService: EventEmitter = new EventEmitter();
   queueService: QueueService;
@@ -64,7 +64,7 @@ export default class MultipleFilesUpload {
     for (const part of this.parts) {
       part.on('progress', (loaded) => {
         this.progress.loaded += loaded;
-        this.progress.procent = Math.round(this.progress.loaded / this.progress.total * 100) + '%';
+        this.progress.percent = Math.round(this.progress.loaded / this.progress.total * 100) + '%';
         this.eventService.emit('progress', this.progress);
       });
     }
@@ -75,7 +75,7 @@ export default class MultipleFilesUpload {
 interface IProgress {
   total: number;
   loaded: number;
-  procent: string;
+  percent: string;
 }
 
 interface IAdditData {
