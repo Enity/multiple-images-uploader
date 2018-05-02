@@ -10,4 +10,10 @@
 config.gypi
 CVS
 npm-debug.log
-/src/forTests
+/test
+/.vscode
+/config
+/testServer
+.babelrc
+.tsconfig.json
+/src
