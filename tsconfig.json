@@ -7,5 +7,8 @@
     "lib": ["es5", "es6", "dom"],
     "target": "es5"
   },
-  "include": ["./src/**/*"]
+  "include": ["./src/**/*"],
+  "exclude": [
+    "./src/browserTest.ts",
+  ]
 }

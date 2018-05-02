@@ -5,7 +5,7 @@ import UploaderPart from './uploaderPart';
 
 export default class MultipleFilesUpload {
   target: string;
-  partSize: number = 1;
+  partSize: number = 5;
   streams: number = 1;
   files: File[];
   parts: UploaderPart[] = [];
@@ -32,7 +32,7 @@ export default class MultipleFilesUpload {
   public on(event: string, callb: (payload: any) => void) {
     this.eventService.subscribe(event, callb);
   }
-  public async start() {
+  public start() {
     return new Promise ((resolve, reject) => {
       this.queueService.start()
       .then(() => {
