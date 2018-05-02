@@ -1,5 +1,6 @@
 dist/
 uploaded/
+src/forTests
 # Logs
 logs
 *.log

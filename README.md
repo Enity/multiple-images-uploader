@@ -26,7 +26,7 @@ const uploader = new MultipleUploader({
   files: filesToUpload
 });
 
-//Subscribe for progress
+// Subscribe for progress
 uploader.on('progress' (event) => console.log(event));
 // will print {total: 51255, loaded: 12234, percent: '23%'}
 
