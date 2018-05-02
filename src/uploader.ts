@@ -26,7 +26,7 @@ export default class MultipleFilesUpload {
       throw(e);
     }
     Object.assign(this, arg);
-    this.files = fileListToArray(this.files);
+    this.files = fileListToArray(arg.files);
     this.initializeParts();
     this.initProgressRender();
     this.queueService = new QueueService(this.parts, this.streams);
@@ -86,7 +86,7 @@ interface IAdditData {
 }
 
 interface IConstructorArgs {
-  files: File[];
+  files: FileList;
   target: string;
   additData?: IAdditData[];
   streams?: number;

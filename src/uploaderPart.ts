@@ -12,6 +12,16 @@ export default class UploaderPart {
     this.initFormData();
     this.initXhr();
   }
+  public send() {
+    this.xhr.open('POST', this.target);
+    this.xhr.send(this.formData);
+  }
+  public abort() {
+    this.xhr.abort();
+  }
+  public on(event: string, callb?: callbackFunc) {
+    this.eventService.subscribe(event, callb);
+  }
   initFormData() {
     if (this.additData) {
       this.additData.map(item => this.formData.append(item.key, item.value));
@@ -36,16 +46,6 @@ export default class UploaderPart {
       }
     };
     this.xhr = xhr;
-  }
-  send() {
-    this.xhr.open('POST', this.target);
-    this.xhr.send(this.formData);
-  }
-  abort() {
-    this.xhr.abort();
-  }
-  on(event: string, callb?: callbackFunc) {
-    this.eventService.subscribe(event, callb);
   }
 }
 

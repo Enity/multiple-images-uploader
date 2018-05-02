@@ -1,6 +1,6 @@
 import getFakeBlob from './blob.mock';
 
-export function ImgFilesMocks(quantity: number, imgType = 'jpeg', sizeMultipler = 10) {
+export function ImgFilesMocks(quantity: number, imgType = 'jpeg', sizeMultipler = 10): FakeFileList {
   const files: File[] = [];
   const imageMock = getFakeBlob(imgType, sizeMultipler);
   let i = 0;
@@ -8,17 +8,20 @@ export function ImgFilesMocks(quantity: number, imgType = 'jpeg', sizeMultipler 
     files.push(imageMock as File);
     i++;
   }
-  return files;
-}
-function formDataMock(files: Blob[], randomNames = true): FormData {
-  const formData = new FormData();
-  files.map(item => {
-    const randomName = String(Math.round(Math.random() * 100));
-    formData.append('file', item, randomName);
-  });
-  return formData;
+  return new FakeFileList(files);
 }
 
-export function createImagesMock(quantity: number, imgType = 'jpg') {
-  return formDataMock(ImgFilesMocks(quantity, imgType));
+class FakeFileList {
+  length: number;
+  item: (i: number) => File;
+  [file: number]: File;
+  constructor(files: File[]) {
+    let i = 0;
+    while (i < files.length) {
+      this[i] = files[i];
+      i++;
+    }
+    this.length = i;
+    this.item = (index: number) => this[i];
+  }
 }

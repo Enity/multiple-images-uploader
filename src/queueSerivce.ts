@@ -7,12 +7,7 @@ export default class QueueService implements IQueueService {
   constructor(public parts: UploaderPart[], public streams: number = 1) {
     this.queueGenerator = this.createGenerator();
   }
-  *createGenerator(): Generator {
-    for (const part of this.parts) {
-      yield part.send();
-    }
-  }
-  start() {
+  public start() {
     return new Promise((resolve, reject) => {
       for (const part of this.parts) {
         part.on('success', (parnN) => {
@@ -33,8 +28,13 @@ export default class QueueService implements IQueueService {
       }
     });
   }
-  abort() {
+  public abort() {
     this.parts.map(part => part.abort());
+  }
+  *createGenerator(): Generator {
+    for (const part of this.parts) {
+      yield part.send();
+    }
   }
 }
 
