@@ -18,7 +18,7 @@ npm install multiple-images-uploader
 ## Examples
 
 
-```
+```js
 const filesToUpload = form.elements.files;
 
 const uploader = new MultipleUploader({
@@ -39,7 +39,7 @@ uploader.on('finish', () => ...);
 uploader.on('error'), (error) => ...);
 ```
 Constructor options argument
-```
+```js
 {
   target: 'localhost'   // request target,
   files: files          // accept <FileList> type
