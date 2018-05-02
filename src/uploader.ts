@@ -1,4 +1,5 @@
 import { ValidateFiles } from './utils/validator';
+import fileListToArray from './utils/fileListToArray';
 import EventEmitter from './eventEmitter';
 import QueueService from './queueSerivce';
 import UploaderPart from './uploaderPart';
@@ -25,6 +26,7 @@ export default class MultipleFilesUpload {
       throw(e);
     }
     Object.assign(this, arg);
+    this.files = fileListToArray(this.files);
     this.initializeParts();
     this.initProgressRender();
     this.queueService = new QueueService(this.parts, this.streams);

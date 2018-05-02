@@ -1,6 +1,6 @@
 {
   "name": "multiple-images-uploader",
-  "version": "0.4.0",
+  "version": "0.4.1",
   "description": "Simple uploader for tons of images",
   "homepage": "https://github.com/Enity/multiple-images-uploader",
   "repository": {
@@ -13,7 +13,7 @@
     "dev": "webpack-dev-server --hot --inline --progress --config config/webpack.conf.js",
     "test": "jest --config ./test/config/jest.config.js",
     "start": "npm run dev",
-    "build": "webpack --config config/webpack.conf.build.js"
+    "build": "tsc"
   },
   "author": "Enity",
   "license": "ISC",
