@@ -1,11 +1,11 @@
-import getFakeBlob from './blob.mock';
+import getFakeFile from './blob.mock';
 
 export function ImgFilesMocks(quantity: number, imgType = 'jpeg', sizeMultipler = 10): FakeFileList {
   const files: File[] = [];
-  const imageMock = getFakeBlob(imgType, sizeMultipler);
+  const imageMock: File = getFakeFile(imgType, sizeMultipler);
   let i = 0;
   while (i < quantity) {
-    files.push(imageMock as File);
+    files.push(imageMock);
     i++;
   }
   return new FakeFileList(files);

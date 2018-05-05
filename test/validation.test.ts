@@ -1,7 +1,7 @@
 import { ImgFilesMocks } from './mocks/files.mock';
-import { MultipleFilesUpload } from '../src/uploader';
+import MultipleFilesUpload from '../src/uploader';
 
-describe('Validation', () => {
+describe('Constructor validators', () => {
   test('Returns an error if the files are not jpg', () => {
     const pngFiles = ImgFilesMocks(15, 'png');
     const test = () => new MultipleFilesUpload({target: '', files: pngFiles});

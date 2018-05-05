@@ -7,8 +7,12 @@ export default class UploaderPart {
   xhr: XMLHttpRequest;
   loaded: number = 0;
 
-  constructor(public filesArr: File[] = [], public target: string,
-              public partN: number, public additData?: IAdditData[]) {
+  constructor(
+    public filesArr: File[] = [],
+    public target: string,
+    public partN: number,
+    public additData?: IAdditData[]
+  ) {
     this.initFormData();
     this.initXhr();
   }
@@ -32,11 +36,11 @@ export default class UploaderPart {
   }
   initXhr() {
     const xhr = new XMLHttpRequest();
-    const throttled = throttle((e) => {
+    const throttled = throttle(e => {
       this.eventService.emit('progress', e.loaded - this.loaded);
       this.loaded = e.loaded;
     }, 1000);
-    xhr.upload.onprogress = (e) => throttled(e);
+    xhr.upload.onprogress = e => throttled(e);
     xhr.onreadystatechange = () => {
       if (xhr.readyState === 4 && xhr.status === 200) {
         this.eventService.emit('success', this.partN);
